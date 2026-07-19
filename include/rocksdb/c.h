@@ -3227,6 +3227,20 @@ extern ROCKSDB_LIBRARY_API int rocksdb_optimistictransactiondb_property_int(
 // to free memory that was malloc()ed
 extern ROCKSDB_LIBRARY_API void rocksdb_free(void* ptr);
 
+extern ROCKSDB_LIBRARY_API rocksdb_pinnableslice_t*
+rocksdb_pinnableslice_create(void);
+extern ROCKSDB_LIBRARY_API void rocksdb_pinnableslice_reset(
+    rocksdb_pinnableslice_t* v);
+// Stores the value in a caller-owned pinnable slice. Returns 1 if the key was
+// found and 0 if it was not found or an error was returned through errptr.
+// Reusing the same pinnable slice retains capacity allocated for copied values.
+extern ROCKSDB_LIBRARY_API unsigned char rocksdb_get_pinned_into(
+    rocksdb_t* db, const rocksdb_readoptions_t* options, const char* key,
+    size_t keylen, rocksdb_pinnableslice_t* value, char** errptr);
+extern ROCKSDB_LIBRARY_API unsigned char rocksdb_get_pinned_cf_into(
+    rocksdb_t* db, const rocksdb_readoptions_t* options,
+    rocksdb_column_family_handle_t* column_family, const char* key,
+    size_t keylen, rocksdb_pinnableslice_t* value, char** errptr);
 extern ROCKSDB_LIBRARY_API rocksdb_pinnableslice_t* rocksdb_get_pinned(
     rocksdb_t* db, const rocksdb_readoptions_t* options, const char* key,
     size_t keylen, char** errptr);
