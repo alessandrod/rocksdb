@@ -64,14 +64,14 @@ jobs:
   build-linux:
     if: ${{ github.repository_owner == 'anza-xyz' }}
     runs-on:
-      labels: 16-core-ubuntu
+      labels: ubuntu-24.04
     container:
       image: zjay437/rocksdb:0.6
       options: --shm-size=16gb
     steps:
     - uses: actions/checkout@v4.1.0
     - uses: "./.github/actions/pre-steps"
-    - run: make V=1 J=32 -j32 check
+    - run: make V=1 J=4 -j4 check
     - uses: "./.github/actions/post-steps"
   build-linux-cmake-mingw:
     if: ${{ github.repository_owner == 'facebook' }}
@@ -379,26 +379,26 @@ jobs:
   build-linux-clang10-asan:
     if: ${{ github.repository_owner == 'anza-xyz' }}
     runs-on:
-      labels: 32-core-ubuntu
+      labels: ubuntu-24.04
     container:
       image: zjay437/rocksdb:0.6
       options: --shm-size=16gb
     steps:
     - uses: actions/checkout@v4.1.0
     - uses: "./.github/actions/pre-steps"
-    - run: COMPILE_WITH_ASAN=1 CC=clang-10 CXX=clang++-10 ROCKSDB_DISABLE_ALIGNED_NEW=1 USE_CLANG=1 make V=1 -j32 check
+    - run: COMPILE_WITH_ASAN=1 CC=clang-10 CXX=clang++-10 ROCKSDB_DISABLE_ALIGNED_NEW=1 USE_CLANG=1 make V=1 J=4 -j4 check
     - uses: "./.github/actions/post-steps"
   build-linux-clang10-ubsan:
     if: ${{ github.repository_owner == 'anza-xyz' }}
     runs-on:
-      labels: 16-core-ubuntu
+      labels: ubuntu-24.04
     container:
       image: zjay437/rocksdb:0.6
       options: --shm-size=16gb
     steps:
     - uses: actions/checkout@v4.1.0
     - uses: "./.github/actions/pre-steps"
-    - run: COMPILE_WITH_UBSAN=1 CC=clang-10 CXX=clang++-10 ROCKSDB_DISABLE_ALIGNED_NEW=1 USE_CLANG=1 make V=1 -j32 ubsan_check
+    - run: COMPILE_WITH_UBSAN=1 CC=clang-10 CXX=clang++-10 ROCKSDB_DISABLE_ALIGNED_NEW=1 USE_CLANG=1 make V=1 J=4 -j4 check
     - uses: "./.github/actions/post-steps"
   build-linux-clang13-mini-tsan:
     if: ${{ github.repository_owner == 'facebook' }}
